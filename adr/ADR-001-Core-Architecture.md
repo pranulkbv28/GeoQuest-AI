@@ -187,7 +187,7 @@ Planned ADRs include:
 
 Related documents:
 
-- `docs/TechStack.md`
-- `architecture/DomainModel.md`
+- [`docs/TechStack.md`](../docs/TechStack.md)
+- [`architecture/DomainModel.md`](../architecture/DomainModel.md)
 
 This ADR should be read before implementing any new business capability or major architectural change.
