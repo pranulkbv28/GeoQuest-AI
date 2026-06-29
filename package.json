@@ -1,0 +1,21 @@
+{
+  "name": "geoquest-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An AI-powered multiplayer geography platform.",
+  "author": "Pranaav B V",
+  "license": "MIT",
+  "packageManager": "pnpm@11.9.0",
+  "type": "module",
+  "scripts": {},
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.9.0",
+      "onFail": "download"
+    }
+  },
+  "devDependencies": {
+    "turbo": "^2.10.0"
+  }
+}
