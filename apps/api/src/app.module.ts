@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-
 import configuration from "./config/configuration";
+import { HealthModule } from "./modules/health/health.module";
 
 @Module({
   imports: [
@@ -9,6 +9,7 @@ import configuration from "./config/configuration";
       isGlobal: true,
       load: [configuration],
     }),
+    HealthModule,
   ],
 })
 export class AppModule {}

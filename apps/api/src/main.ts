@@ -15,7 +15,6 @@ async function bootstrap() {
   app.setGlobalPrefix(apiPrefix);
   app.enableVersioning({
     type: VersioningType.URI,
-    defaultVersion: apiVersion,
   });
 
   await app.listen(port);
