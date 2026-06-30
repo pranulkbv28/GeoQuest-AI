@@ -7,7 +7,13 @@
   "license": "MIT",
   "packageManager": "pnpm@11.9.0",
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "format": "turbo format"
+  },
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
@@ -16,6 +22,7 @@
     }
   },
   "devDependencies": {
-    "turbo": "^2.10.0"
+    "turbo": "^2.10.0",
+    "typescript": "^5.9.3"
   }
 }
