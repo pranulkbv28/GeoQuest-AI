@@ -1,4 +1,5 @@
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import { RequestLoggerMiddleware } from "../../common/middleware/request-logger.middleware";
 import { HealthController } from "./health.controller";
 import { HealthService } from "./health.service";
 
@@ -6,4 +7,8 @@ import { HealthService } from "./health.service";
   controllers: [HealthController],
   providers: [HealthService],
 })
-export class HealthModule {}
+export class HealthModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(RequestLoggerMiddleware).forRoutes(HealthController);
+  }
+}
