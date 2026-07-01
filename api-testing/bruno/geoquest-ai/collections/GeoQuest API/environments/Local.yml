@@ -1,0 +1,10 @@
+name: Local
+variables:
+  - name: host
+    value: http://localhost:3001
+  - name: apiPrefix
+    value: api
+  - name: apiVersion
+    value: v1
+  - name: baseUrl
+    value: http://localhost:3001/api/v1

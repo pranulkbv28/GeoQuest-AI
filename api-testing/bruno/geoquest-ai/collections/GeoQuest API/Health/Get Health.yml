@@ -5,8 +5,28 @@ info:
 
 http:
   method: GET
-  url: http://localhost:3001/api/v1/health
+  url: "{{baseUrl}}/health"
   auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Status should be 200", function () {
+          expect(res.getStatus()).to.equal(200);
+        });
+
+        test("Health status should be ok", function () {
+          const body = res.getBody();
+
+          expect(body.status).to.equal("ok");
+        });
+
+        test("Response should contain message", function () {
+          const body = res.getBody();
+
+          expect(body.message).to.exist;
+        });
 
 settings:
   encodeUrl: true
