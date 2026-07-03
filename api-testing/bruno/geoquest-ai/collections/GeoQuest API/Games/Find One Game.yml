@@ -1,0 +1,45 @@
+info:
+  name: Find One Game
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{baseUrl}}/games/b1aef68f-b2b4-4a90-be21-f52e6e62a59d"
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        const body = res.getBody();
+
+        test("Status should 200", function () {
+          expect(res.getStatus()).to.equal(200);
+        })
+
+        test ("Response should contain gameId", function () {
+          expect(body.gameId).to.exist;
+        })
+
+        test("Response should have the right game mode", function () {
+          expect(body.gameMode).to.equal("single-player");
+        })
+
+        test("Response should have the right game status", function () {
+          expect(body.gameStatus).to.equal("created");
+        })
+
+        test ("Response should contain createdAt", function () {
+          expect(body.createdAt).to.exist;
+        })
+
+        test("Response should be an object", function () {
+          expect(res.getBody()).to.be.an("object");
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
