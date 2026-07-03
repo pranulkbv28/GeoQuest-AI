@@ -23,4 +23,9 @@ export class GamesController {
   findAll() {
     return this.gamesService.findAll();
   }
+
+  @Post(":id/start")
+  start(@Param("id") id: string) {
+    return this.gamesService.start(id);
+  }
 }
