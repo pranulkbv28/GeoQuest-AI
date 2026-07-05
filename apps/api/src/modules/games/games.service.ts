@@ -3,10 +3,15 @@ import { randomUUID } from "crypto";
 import { GameStatus } from "../../common/enums/game-status.enum";
 import { CreateGameDto } from "./dto/create-game.dto";
 import { Game } from "./entities/game.entity";
+import { CountrySelectionService } from "./services/country-selection.service";
 
 @Injectable()
 export class GamesService {
   private readonly games: Game[] = [];
+
+  constructor(
+    private readonly countrySelectionService: CountrySelectionService,
+  ) {}
 
   /**
    * Post /games
@@ -17,6 +22,7 @@ export class GamesService {
       gameMode: createGameDto.gameMode,
       gameStatus: GameStatus.CREATED,
       createdAt: new Date().toISOString(),
+      countries: [],
     };
 
     this.games.push(newGame);
@@ -79,6 +85,7 @@ export class GamesService {
     game.gameStatus = GameStatus.READY;
 
     // TODO(GameService): CountrySelectionService.generateBatch(game)
+    game.countries = this.countrySelectionService.generateBatch();
     // TODO(GameService): BoardGenerationService.generateBoard(game)
     // TODO(GameService): TurnService.initializeFirstTurn(game)
 
