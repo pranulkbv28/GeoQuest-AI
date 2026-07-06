@@ -15,6 +15,10 @@ This project is also an engineering playground for exploring:
 - Distributed Systems
 - System Design
 
+## Documentation
+
+See [`docs/`](./docs) for game design, domain model, architecture, decisions log, and roadmap.
+
 ## Status
 
-🚧 Project Blueprint (v0.1.0)
+🚧 Planning Complete (v0.0.0) — infrastructure setup in progress
