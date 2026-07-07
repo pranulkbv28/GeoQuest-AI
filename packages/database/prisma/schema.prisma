@@ -13,14 +13,60 @@ datasource db {
 }
 
 model User {
-  id String @id @default(cuid())
+  id String @id @default(cuid(2))
 
   email       String  @unique
   displayName String?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  deletedAt DateTime
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   @@map("users")
+}
+
+model Country {
+  id String @id @default(cuid(2))
+
+  name    String
+  isoCode String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  questions Question[]
+
+  @@map("countries")
+}
+
+model Category {
+  id String @id @default(cuid(2))
+
+  name String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  questions Question[]
+
+  @@map("categories")
+}
+
+model Question {
+  id String @id @default(cuid(2))
+
+  categoryId String
+  countryId  String?
+
+  question String
+  answer   String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  category Category @relation(fields: [categoryId], references: [id])
+  country  Country? @relation(fields: [countryId], references: [id])
+
+  @@map("questions")
 }
