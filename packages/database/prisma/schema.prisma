@@ -12,15 +12,30 @@ datasource db {
   provider = "postgresql"
 }
 
+enum GameMode {
+  SOLO
+  LOCAL_PASS_AND_PLAY
+
+  @@map("game_mode")
+}
+
+enum ChallengeType {
+  COUNTRY_GUESS
+  QUESTION
+
+  @@map("challenge_type")
+}
+
 model User {
   id String @id @default(cuid(2))
 
   email       String  @unique
   displayName String?
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  deletedAt   DateTime?
+  gamePlayers GamePlayer[]
 
   @@map("users")
 }
@@ -35,6 +50,7 @@ model Country {
   updatedAt DateTime @updatedAt
 
   questions Question[]
+  attempts  Attempt[]
 
   @@map("countries")
 }
@@ -65,8 +81,85 @@ model Question {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  category Category @relation(fields: [categoryId], references: [id])
-  country  Country? @relation(fields: [countryId], references: [id])
+  category Category  @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  country  Country?  @relation(fields: [countryId], references: [id], onDelete: SetNull)
+  attempts Attempt[]
 
   @@map("questions")
+}
+
+model Game {
+  id String @id @default(cuid(2))
+
+  mode GameMode @default(SOLO)
+
+  createdAt   DateTime     @default(now())
+  endedAt     DateTime?
+  gamePlayers GamePlayer[]
+
+  @@map("games")
+}
+
+model GamePlayer {
+  id String @id @default(cuid(2))
+
+  displayName String
+
+  gameId String
+  userId String?
+
+  currentTile Int @default(0)
+
+  createdAt DateTime @default(now())
+
+  game  Game   @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  user  User?  @relation(fields: [userId], references: [id], onDelete: SetNull)
+  turns Turn[]
+
+  @@index([gameId])
+  @@index([userId])
+  @@map("game_players")
+}
+
+model Turn {
+  id String @id @default(cuid(2))
+
+  gamePlayerId String
+
+  turnNumber Int
+
+  createdAt DateTime @default(now())
+
+  gamePlayer GamePlayer @relation(fields: [gamePlayerId], references: [id], onDelete: Cascade)
+  attempts   Attempt[]
+
+  @@index([gamePlayerId])
+  @@map("turns")
+}
+
+model Attempt {
+  id String @id @default(cuid(2))
+
+  turnId String
+
+  challengeType ChallengeType
+
+  countryId  String?
+  questionId String?
+
+  selectedAnswer String
+  isCorrect      Boolean
+
+  responseTimeMs Int
+
+  createdAt DateTime @default(now())
+
+  turn     Turn      @relation(fields: [turnId], references: [id], onDelete: Cascade)
+  country  Country?  @relation(fields: [countryId], references: [id], onDelete: SetNull)
+  question Question? @relation(fields: [questionId], references: [id], onDelete: SetNull)
+
+  @@index([turnId])
+  @@index([countryId])
+  @@index([questionId])
+  @@map("attempts")
 }
