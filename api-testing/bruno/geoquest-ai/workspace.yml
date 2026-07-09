@@ -6,6 +6,8 @@ info:
 collections:
   - name: "Health"
     path: "collections/Health"
+  - name: "Country"
+    path: "collections/Country"
 
 specs:
 

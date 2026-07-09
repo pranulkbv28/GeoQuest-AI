@@ -6,6 +6,7 @@ import { RequestLoggerMiddleware } from './common/middleware/request-logger.midd
 import configuration from './config/configuration';
 import { validationSchema } from './config/validation';
 import { HealthModule } from './modules/health/health.module';
+import { CountriesModule } from './modules/countries/countries.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { HealthModule } from './modules/health/health.module';
       validationSchema,
     }),
     HealthModule,
+    CountriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
