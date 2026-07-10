@@ -10,7 +10,6 @@ export class CountriesController {
 
   @Get()
   findAll() {
-    console.log('Hitting Controller');
     return this.countriesService.findAll();
   }
 

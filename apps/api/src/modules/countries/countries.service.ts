@@ -1,5 +1,5 @@
 import { db } from '@geoquest-ai/database';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class CountriesService {
@@ -7,10 +7,11 @@ export class CountriesService {
     const countries = await db.country.findMany();
 
     if (countries.length == 0) {
-      return {
-        countries: [],
-        message: 'No countries found',
-      };
+      throw new NotFoundException({
+        status: 404,
+        error: 'CountriesNotFound',
+        message: 'No countries are found in the database.',
+      });
     }
 
     return {
@@ -26,9 +27,11 @@ export class CountriesService {
     });
 
     if (!country) {
-      return {
-        message: `No such country with id: ${id}`,
-      };
+      throw new NotFoundException({
+        status: 404,
+        error: 'CountryNotFound',
+        message: 'The specified country could not be located in our database.',
+      });
     }
 
     return country;
