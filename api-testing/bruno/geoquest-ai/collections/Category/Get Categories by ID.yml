@@ -30,7 +30,7 @@ runtime:
           expect(body.name.length).to.be.greaterThan(0);
         });
 
-        test("Category blob is not empty", () => {
+        test("Category slug is not empty", () => {
           expect(body.categorySlug.length).to.be.greaterThan(0);
         });
 
