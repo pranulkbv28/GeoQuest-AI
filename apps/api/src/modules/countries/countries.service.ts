@@ -4,15 +4,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 @Injectable()
 export class CountriesService {
   async findAll() {
-    const countries = await db.country.findMany();
-
-    if (countries.length == 0) {
-      throw new NotFoundException({
-        status: 404,
-        error: 'CountriesNotFound',
-        message: 'No countries are found in the database.',
-      });
-    }
+    const countries = await db.country.findMany({
+      orderBy: {
+        name: 'asc',
+      },
+    });
 
     return {
       countries,

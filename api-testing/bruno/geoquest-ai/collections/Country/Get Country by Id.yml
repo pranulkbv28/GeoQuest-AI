@@ -5,8 +5,34 @@ info:
 
 http:
   method: GET
-  url: "{{baseUrl}}/countries/2"
+  url: "{{baseUrl}}/countries/cwlggndsp8an0zpgowetu7h6"
   auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        const body = res.body;
+
+        test("Status code is 200", () => {
+          expect(res.getStatus()).to.equal(200);
+        });
+
+        test("Country contains expected fields", () => {
+          expect(body).to.have.property("id");
+          expect(body).to.have.property("name");
+          expect(body).to.have.property("isoCode");
+          expect(body).to.have.property("createdAt");
+          expect(body).to.have.property("updatedAt");
+        });
+
+        test("ISO code has length 3", () => {
+          expect(body.isoCode.length).to.equal(3);
+        });
+
+        test("Country name is not empty", () => {
+          expect(body.name.length).to.be.greaterThan(0);
+        });
 
 settings:
   encodeUrl: true

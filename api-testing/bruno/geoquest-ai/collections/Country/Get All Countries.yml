@@ -8,6 +8,37 @@ http:
   url: "{{baseUrl}}/countries"
   auth: inherit
 
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        const body = res.body;
+
+        test("Status code is 200", () => {
+          expect(res.getStatus()).to.equal(200);
+        });
+
+        test("Countries is an array", () => {
+          expect(body.countries).to.be.an("array");
+        });
+
+        test("Count matches array length", () => {
+          expect(body.count).to.equal(res.body.countries.length);
+        });
+
+        test("At least 250 countries exist", () => {
+          expect(body.count).to.be.at.least(250);
+        });
+
+        test("Country has expected fields", () => {
+          const first = body.countries[0];
+          expect(first).to.have.property("id");
+          expect(first).to.have.property("name");
+          expect(first).to.have.property("isoCode");
+          expect(first).to.have.property("createdAt");
+          expect(first).to.have.property("updatedAt");
+        });
+
 settings:
   encodeUrl: true
   timeout: 0

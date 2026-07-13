@@ -8,6 +8,32 @@ http:
   url: "{{baseUrl}}/health"
   auth: inherit
 
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        const body = res.body
+
+        test("Status code is 200", () => {
+          expect(res.getStatus()).to.equal(200);
+        })
+
+        test("Respone contains status", () => {
+          expect(body.status).to.equal("ok");
+        })
+
+        test("Database is connected", () => {
+          expect(body.database.connected).to.equal(true);
+        })
+
+        test("Timestamp exists", () => {
+          expect(res.body.timestamp).to.be.a("string");
+        });
+
+        test("User count is a number", () => {
+          expect(res.body.database.userCount).to.be.a("number");
+        });
+
 settings:
   encodeUrl: true
   timeout: 0
