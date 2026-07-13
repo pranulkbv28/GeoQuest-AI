@@ -7,6 +7,7 @@ import configuration from './config/configuration';
 import { validationSchema } from './config/validation';
 import { HealthModule } from './modules/health/health.module';
 import { CountriesModule } from './modules/countries/countries.module';
+import { CategoriesModule } from './modules/categories/categories.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CountriesModule } from './modules/countries/countries.module';
     }),
     HealthModule,
     CountriesModule,
+    CategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

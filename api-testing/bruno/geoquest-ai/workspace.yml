@@ -10,6 +10,8 @@ collections:
     path: "collections/Country"
   - name: "Public API"
     path: "collections/Public API"
+  - name: "Category"
+    path: "collections/Category"
 
 specs:
 
