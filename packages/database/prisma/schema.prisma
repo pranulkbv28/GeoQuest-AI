@@ -61,7 +61,7 @@ model Category {
   id String @id @default(cuid(2))
 
   name         String @unique
-  categoryBlob String @unique
+  categorySlug String @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

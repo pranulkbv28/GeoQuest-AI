@@ -13,13 +13,13 @@ export class CategoriesController {
     return this.categoriesService.findAll();
   }
 
-  @Get('byID/:id')
+  @Get(':id')
   findById(@Param('id') id: string) {
     return this.categoriesService.findById(id);
   }
 
-  @Get('ByName/:name')
-  findByName(@Param('name') name: string) {
-    return this.categoriesService.findByName(name);
+  @Get('slug/:slug')
+  findByName(@Param('slug') slug: string) {
+    return this.categoriesService.findByName(slug);
   }
 }

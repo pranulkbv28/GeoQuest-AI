@@ -34,7 +34,7 @@ runtime:
           const first = body.categories[0];
           expect(first).to.have.property("id");
           expect(first).to.have.property("name");
-          expect(first).to.have.property("categoryBlob");
+          expect(first).to.have.property("categorySlug");
           expect(first).to.have.property("createdAt");
           expect(first).to.have.property("updatedAt");
         });

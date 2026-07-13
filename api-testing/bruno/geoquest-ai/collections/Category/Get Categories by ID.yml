@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{baseUrl}}/categories/byID/zkjbuqa4cqypzz2guf60yqvp"
+  url: "{{baseUrl}}/categories/hse263g7uy3dc9hhijaadhi1"
   auth: inherit
 
 runtime:
@@ -21,7 +21,7 @@ runtime:
         test("Category contains expected fields", () => {
           expect(body).to.have.property("id");
           expect(body).to.have.property("name");
-          expect(body).to.have.property("categoryBlob");
+          expect(body).to.have.property("categorySlug");
           expect(body).to.have.property("createdAt");
           expect(body).to.have.property("updatedAt");
         });
@@ -31,7 +31,7 @@ runtime:
         });
 
         test("Category blob is not empty", () => {
-          expect(body.categoryBlob.length).to.be.greaterThan(0);
+          expect(body.categorySlug.length).to.be.greaterThan(0);
         });
 
 settings:

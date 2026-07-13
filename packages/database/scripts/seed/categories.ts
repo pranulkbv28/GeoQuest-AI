@@ -2,11 +2,11 @@ import 'dotenv/config';
 import { db } from '../../src/prisma.ts';
 
 const categories = [
-  { name: 'Countries And Continents', categoryBlob: 'countries-and-continents' },
-  { name: 'Physical Features', categoryBlob: 'physical-features' },
-  { name: 'Culture And Society', categoryBlob: 'culture-and-society' },
-  { name: 'Visual Landmarks', categoryBlob: 'visual-landmarks' },
-  { name: 'Current Events', categoryBlob: 'current-events' },
+  { name: 'Countries And Continents', categorySlug: 'countries-and-continents' },
+  { name: 'Physical Features', categorySlug: 'physical-features' },
+  { name: 'Culture And Society', categorySlug: 'culture-and-society' },
+  { name: 'Visual Landmarks', categorySlug: 'visual-landmarks' },
+  { name: 'Current Events', categorySlug: 'current-events' },
 ];
 
 async function main() {

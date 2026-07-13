@@ -1,11 +1,11 @@
 info:
-  name: Get Categories by Name
+  name: Get Categories by Slug
   type: http
   seq: 3
 
 http:
   method: GET
-  url: "{{baseUrl}}/categories/ByName/countries-and-continents"
+  url: "{{baseUrl}}/categories/slug/countries-and-continents"
   auth: inherit
 
 runtime:
@@ -21,7 +21,7 @@ runtime:
         test("Category contains expected fields", () => {
           expect(body).to.have.property("id");
           expect(body).to.have.property("name");
-          expect(body).to.have.property("categoryBlob");
+          expect(body).to.have.property("categorySlug");
           expect(body).to.have.property("createdAt");
           expect(body).to.have.property("updatedAt");
         });
@@ -31,7 +31,7 @@ runtime:
         });
 
         test("Category blob is not empty", () => {
-          expect(body.categoryBlob.length).to.be.greaterThan(0);
+          expect(body.categorySlug.length).to.be.greaterThan(0);
         });
 
 settings:

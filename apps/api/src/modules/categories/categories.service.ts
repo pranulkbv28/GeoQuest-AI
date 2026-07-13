@@ -30,10 +30,10 @@ export class CategoriesService {
     return category;
   }
 
-  async findByName(name: string) {
+  async findByName(slug: string) {
     const category = await db.category.findUnique({
       where: {
-        categoryBlob: name,
+        categorySlug: slug,
       },
     });
 
