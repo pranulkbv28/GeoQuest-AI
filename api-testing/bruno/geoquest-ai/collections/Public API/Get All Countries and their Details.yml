@@ -5,10 +5,10 @@ info:
 
 http:
   method: GET
-  url: https://countries.dev/countries?fields=name,capital,alpha2Code,alpha3Code
+  url: https://countries.dev/countries?fields=name,alpha3Code
   params:
     - name: fields
-      value: name,capital,alpha2Code,alpha3Code
+      value: name,alpha3Code
       type: query
   auth: inherit
 
