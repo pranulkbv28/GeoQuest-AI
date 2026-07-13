@@ -13,7 +13,8 @@
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts --clean",
-    "dev": "tsup src/index.ts --format esm --dts --watch",
+    "watch": "tsup src/index.ts --format esm --dts --watch",
+    "dev": "pnpm watch",
     "typecheck": "tsc --noEmit",
     "sync:countries": "tsx scripts/sync/countries.ts",
     "seed:categories": "tsx scripts/seed/categories.ts"
