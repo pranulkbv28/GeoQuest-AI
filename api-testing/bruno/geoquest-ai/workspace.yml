@@ -8,6 +8,8 @@ collections:
     path: "collections/Health"
   - name: "Country"
     path: "collections/Country"
+  - name: "Public API"
+    path: "collections/Public API"
 
 specs:
 
