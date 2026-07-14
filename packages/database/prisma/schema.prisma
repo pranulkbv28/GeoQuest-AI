@@ -14,6 +14,8 @@ datasource db {
   provider = "postgresql"
 }
 
+// Enums
+
 enum GameMode {
   SOLO
   LOCAL_PASS_AND_PLAY
@@ -27,6 +29,28 @@ enum ChallengeType {
 
   @@map("challenge_type")
 }
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+
+  @@map("question_type")
+}
+
+enum QuestionSource {
+  MANUAL
+  AI_GENERATED
+
+  @@map("question_source")
+}
+
+enum QuestionStatus {
+  DRAFT
+  PUBLISHED
+
+  @@map("question_status")
+}
+
+// Models
 
 model User {
   id String @id @default(cuid(2))
@@ -78,14 +102,28 @@ model Question {
   countryId  String?
 
   question String
-  answer   String
+
+  questionImageUrl String?
+
+  questionType QuestionType @default(MULTIPLE_CHOICE)
+
+  options Json?
+
+  answer String
+
+  explanation String?
+
+  source QuestionSource @default(MANUAL)
+
+  status QuestionStatus @default(PUBLISHED)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  category Category  @relation(fields: [categoryId], references: [id], onDelete: Restrict)
-  country  Country?  @relation(fields: [countryId], references: [id], onDelete: SetNull)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  country  Country? @relation(fields: [countryId], references: [id], onDelete: SetNull)
+
   attempts Attempt[]
 
   @@map("questions")

@@ -17,7 +17,8 @@
     "dev": "pnpm watch",
     "typecheck": "tsc --noEmit",
     "sync:countries": "tsx scripts/sync/countries.ts",
-    "seed:categories": "tsx scripts/seed/categories.ts"
+    "seed:categories": "tsx scripts/seed/categories.ts",
+    "seed:questions": "tsx scripts/seed/questions.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.8.0",

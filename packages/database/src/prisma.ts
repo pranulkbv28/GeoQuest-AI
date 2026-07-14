@@ -1,5 +1,14 @@
 import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from './generated/prisma/client.ts';
+import {
+  ChallengeType,
+  GameMode,
+  PrismaClient,
+  QuestionSource,
+  QuestionStatus,
+  QuestionType,
+} from './generated/prisma/client.ts';
+
+export { ChallengeType, GameMode, QuestionSource, QuestionStatus, QuestionType };
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL!,
