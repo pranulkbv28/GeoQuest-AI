@@ -12,23 +12,31 @@ const categories = [
 async function main() {
   console.log('🌱 Seeding categories...');
 
-  console.log('🗑️ Clearing categories...');
+  let successCount = 0;
+  let failureCount = 0;
 
-  await db.category.deleteMany({});
+  for (const category of categories) {
+    try {
+      await db.category.upsert({
+        where: { categorySlug: category.categorySlug },
+        update: { name: category.name },
+        create: category,
+      });
 
-  let totalCategories = await db.category.count();
+      console.log(`  ✓ ${category.name} (${category.categorySlug})`);
+      successCount++;
+    } catch (e) {
+      const message = e instanceof Error ? e.message : String(e);
+      console.error(`  ✗ Failed to upsert ${category.name}: ${message}`);
+      failureCount++;
+    }
+  }
 
-  console.log(`Total categories after deletion: ${totalCategories}`);
+  const totalCategories = await db.category.count();
 
-  const seededCategories = await db.category.createMany({
-    data: categories,
-  });
-
-  console.log(`✅ Inserted ${seededCategories.count} new categories`);
-
-  totalCategories = await db.category.count();
-
-  console.log(`📦 Total categories after insertion: ${totalCategories}`);
+  console.log('--- Seeding Summary ---');
+  console.log(`Processed: ${successCount} succeeded, ${failureCount} failed`);
+  console.log(`📦 Total categories now in database: ${totalCategories}`);
   console.log('🎉 Category seed completed');
 }
 
