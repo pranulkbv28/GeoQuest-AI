@@ -107,7 +107,7 @@ model Question {
 
   questionType QuestionType @default(MULTIPLE_CHOICE)
 
-  options Json?
+  options String[]
 
   answer String
 

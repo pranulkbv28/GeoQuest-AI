@@ -12,6 +12,8 @@ collections:
     path: "collections/Public API"
   - name: "Category"
     path: "collections/Category"
+  - name: "Question"
+    path: "collections/Question"
 
 specs:
 

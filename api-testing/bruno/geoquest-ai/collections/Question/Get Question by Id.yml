@@ -1,0 +1,35 @@
+info:
+  name: Get Question by Id
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{baseUrl}}/questions/zeves6byqsar8klxyoxxp2au"
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        const body = res.body;
+
+        test("Status code is 200", () => {
+          expect(res.getStatus()).to.equal(200);
+        });
+
+        test("Questions has expected fields", () => {
+          expect(body).to.have.property("id");
+          expect(body).to.have.property("question");
+          expect(body).to.have.property("questionImageUrl");
+          expect(body).to.have.property("questionType");
+          expect(body).to.have.property("options");
+          expect(body).to.have.property("category");
+          expect(body).to.have.property("country");
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
