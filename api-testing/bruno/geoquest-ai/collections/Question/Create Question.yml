@@ -1,0 +1,46 @@
+info:
+  name: Create Question
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{baseUrl}}/questions/"
+  body:
+    type: json
+    data: |-
+      {
+        "question": "Who is considered as India's Father of the Nation?",
+        "categorySlug": "culture-and-society",
+        "isoCode": "IND",
+        "questionType": "MULTIPLE_CHOICE",
+        "options": ["Mahatma Gandhi", "Netaji Subhash Changra Bose", "Atal Bihari Vajpayee", "Jawahalal Nehru"],
+        "answer": "Mahatma Gandhi"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        const body = res.body;
+
+        test("Status code is 200", () => {
+          expect(res.getStatus()).to.equal(200);
+        });
+
+        test("Questions has expected fields", () => {
+          expect(body).to.have.property("id");
+          expect(body).to.have.property("question");
+          expect(body).to.have.property("questionImageUrl");
+          expect(body).to.have.property("questionType");
+          expect(body).to.have.property("options");
+          expect(body).to.have.property("category");
+          expect(body).to.have.property("country");
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

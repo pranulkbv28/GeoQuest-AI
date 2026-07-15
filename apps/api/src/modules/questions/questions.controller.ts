@@ -1,4 +1,5 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { CreateQuestionDto } from './dto/create-question.dto';
 import { QuestionsService } from './questions.service';
 
 @Controller({
@@ -21,5 +22,10 @@ export class QuestionsController {
   @Get('category/:slug')
   findByCategory(@Param('slug') slug: string) {
     return this.questionsService.findByCategory(slug);
+  }
+
+  @Post()
+  create(@Body() createQuestionDto: CreateQuestionDto) {
+    return this.questionsService.create(createQuestionDto);
   }
 }
