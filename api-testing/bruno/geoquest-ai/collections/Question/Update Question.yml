@@ -1,21 +1,21 @@
 info:
-  name: Create Question
+  name: Update Question
   type: http
-  seq: 4
+  seq: 5
 
 http:
-  method: POST
-  url: "{{baseUrl}}/questions/"
+  method: PATCH
+  url: "{{baseUrl}}/questions/llppgrq5yb1fr1mwfebd556b"
   body:
     type: json
     data: |-
       {
-        "question": "Which ocean is the largest ocean?",
+        "question": "Who was the first Indian to go to space?",
         "categorySlug": "countries-and-continents",
-        "isoCode": "",
+        "isoCode": "IND",
         "questionType": "MULTIPLE_CHOICE",
-        "options": ["Pacific", "Atlantic", "Indian", "Arctic"],
-        "answer": "Pacific"
+        "options": ["Rakesh Sharma", "Kalpana Chawla", "Rakesh Dhawan", "DR. APJ Abdul Kalam"],
+        "answer": "Rakesh Sharma"
       }
   auth: inherit
 

@@ -27,7 +27,7 @@ export class CreateQuestionDto {
   @IsUrl()
   questionImageUrl?: string;
 
-  @IsNotEmpty({ each: true })
+  @IsNotEmpty()
   @IsEnum(QuestionType)
   questionType!: QuestionType;
 
