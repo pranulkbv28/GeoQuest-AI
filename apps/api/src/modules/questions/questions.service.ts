@@ -1,5 +1,5 @@
 import { db, Prisma } from '@geoquest-ai/database';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { GoneException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { QuestionDto } from './dto/question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
@@ -26,7 +26,6 @@ export class QuestionsService {
   private readonly questionsOmit = {
     categoryId: true,
     countryId: true,
-    deletedAt: true,
   };
 
   async findAll(): Promise<{
@@ -50,10 +49,9 @@ export class QuestionsService {
   }
 
   async findById(id: string): Promise<QuestionDto> {
-    const question = await db.question.findFirst({
+    const question = await db.question.findUnique({
       where: {
         id,
-        deletedAt: null,
       },
       include: this.questionsInclude,
       omit: this.questionsOmit,
@@ -64,6 +62,16 @@ export class QuestionsService {
         status: 404,
         error: 'QuestionNotFound',
         message: 'The specified question could not be located in our database.',
+      });
+    }
+
+    if (question.deletedAt) {
+      throw new GoneException({
+        status: 410,
+
+        error: 'QuestionDeleted',
+
+        message: 'The specified question has been deleted.',
       });
     }
 
@@ -283,5 +291,32 @@ export class QuestionsService {
     });
 
     return this.questionMapper.toDto(question);
+  }
+
+  async remove(id: string): Promise<void> {
+    const question = await db.question.findFirst({
+      where: {
+        id,
+
+        deletedAt: null,
+      },
+    });
+
+    if (!question) {
+      throw new NotFoundException({
+        status: 404,
+        error: 'QuestionNotFound',
+        message: 'The specified question could not be located in our database.',
+      });
+    }
+
+    await db.question.update({
+      where: {
+        id,
+      },
+      data: {
+        deletedAt: new Date(),
+      },
+    });
   }
 }

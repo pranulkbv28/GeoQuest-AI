@@ -10,12 +10,12 @@ http:
     type: json
     data: |-
       {
-        "question": "Which ocean is the largest ocean?",
+        "question": "What 2 + 1?",
         "categorySlug": "countries-and-continents",
         "isoCode": "",
         "questionType": "MULTIPLE_CHOICE",
-        "options": ["Pacific", "Atlantic", "Indian", "Arctic"],
-        "answer": "Pacific"
+        "options": ["3", "2", "1", "8"],
+        "answer": "3"
       }
   auth: inherit
 
