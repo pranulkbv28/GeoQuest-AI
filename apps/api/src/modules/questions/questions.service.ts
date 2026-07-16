@@ -1,5 +1,10 @@
 import { db, Prisma } from '@geoquest-ai/database';
-import { GoneException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  GoneException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { QuestionDto } from './dto/question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
@@ -150,6 +155,24 @@ export class QuestionsService {
       }
     }
 
+    const existingDuplicateQuestion = await db.question.findFirst({
+      where: {
+        question: createQuestionDto.question,
+        categoryId: category.id,
+        countryId: country?.id ?? null,
+        deletedAt: null,
+      },
+    });
+
+    if (existingDuplicateQuestion) {
+      throw new ConflictException({
+        status: 409,
+        error: 'DuplicateQuestion',
+        message:
+          'A question with the same text already exists for this category and country.',
+      });
+    }
+
     const question = await db.question.create({
       data: {
         categoryId: category.id,
@@ -243,33 +266,26 @@ export class QuestionsService {
     if (updateQuestionDto.question !== undefined) {
       data.question = updateQuestionDto.question;
     }
-
     if (updateQuestionDto.questionImageUrl !== undefined) {
       data.questionImageUrl = updateQuestionDto.questionImageUrl;
     }
-
     if (updateQuestionDto.questionType !== undefined) {
       data.questionType = updateQuestionDto.questionType;
     }
-
     if (updateQuestionDto.options !== undefined) {
       data.options = updateQuestionDto.options;
     }
-
     if (updateQuestionDto.answer !== undefined) {
       data.answer = updateQuestionDto.answer;
     }
-
     if (updateQuestionDto.explanation !== undefined) {
       data.explanation = updateQuestionDto.explanation;
     }
-
     data.category = {
       connect: {
         id: categoryId,
       },
     };
-
     data.country =
       countryId === null
         ? {
@@ -280,6 +296,32 @@ export class QuestionsService {
               id: countryId,
             },
           };
+
+    const finalQuestion =
+      updateQuestionDto.question !== undefined
+        ? updateQuestionDto.question
+        : existingQuestion.question;
+
+    const existingDuplicateQuestion = await db.question.findFirst({
+      where: {
+        id: {
+          not: id,
+        },
+        question: finalQuestion,
+        categoryId,
+        countryId,
+        deletedAt: null,
+      },
+    });
+
+    if (existingDuplicateQuestion) {
+      throw new ConflictException({
+        status: 409,
+        error: 'DuplicateQuestion',
+        message:
+          'A question with the same text already exists for this category and country.',
+      });
+    }
 
     const question = await db.question.update({
       where: {
