@@ -33,23 +33,42 @@ export class QuestionsService {
     countryId: true,
   };
 
-  async findAll(): Promise<{
-    questions: QuestionDto[];
-    count: number;
-  }> {
+  async findAll(
+    paginationDto: QuestionPaginationDto,
+  ): Promise<PaginatedQuestionsDto> {
+
+    const { page, pageSize } = paginationDto;
+    const skip = (page - 1) * pageSize;
+const take = pageSize;
+
     const questions = await db.question.findMany({
       where: {
         deletedAt: null,
       },
+      skip,
+      take,
       include: this.questionsInclude,
       omit: this.questionsOmit,
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
+
+    const totalItems = await db.question.count({
+      where: {
+        deletedAt: null,
+      },
+    });
+    const totalPages = Math.ceil(totalItems / pageSize);
 
     return {
       questions: questions.map((question) =>
         this.questionMapper.toDto(question),
       ),
-      count: questions.length,
+      page,
+      pageSize,
+      totalItems,
+      totalPages,
     };
   }
 

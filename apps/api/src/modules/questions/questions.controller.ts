@@ -21,9 +21,12 @@ export class QuestionsController {
   constructor(private readonly questionsService: QuestionsService) {}
 
   @Get()
-  findAll() {
-    return this.questionsService.findAll();
-  }
+
+findAll(@Query() paginationDto: QuestionPaginationDto) {
+
+  return this.questionsService.findAll(paginationDto);
+
+}
 
   @Get(':id')
   findById(@Param('id') id: string) {
