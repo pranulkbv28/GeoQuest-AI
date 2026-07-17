@@ -8,8 +8,10 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { CreateQuestionDto } from './dto/create-question.dto';
+import { QuestionPaginationDto } from './dto/question-pagination.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { QuestionsService } from './questions.service';
 
@@ -21,12 +23,9 @@ export class QuestionsController {
   constructor(private readonly questionsService: QuestionsService) {}
 
   @Get()
-
-findAll(@Query() paginationDto: QuestionPaginationDto) {
-
-  return this.questionsService.findAll(paginationDto);
-
-}
+  findAll(@Query() paginationDto: QuestionPaginationDto) {
+    return this.questionsService.findAll(paginationDto);
+  }
 
   @Get(':id')
   findById(@Param('id') id: string) {

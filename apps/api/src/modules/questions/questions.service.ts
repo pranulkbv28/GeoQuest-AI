@@ -6,6 +6,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateQuestionDto } from './dto/create-question.dto';
+import { PaginatedQuestionsDto } from './dto/paginated-questions.dto';
+import { QuestionPaginationDto } from './dto/question-pagination.dto';
 import { QuestionDto } from './dto/question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { QuestionMapper } from './mapper/question.mapper';
@@ -36,29 +38,64 @@ export class QuestionsService {
   async findAll(
     paginationDto: QuestionPaginationDto,
   ): Promise<PaginatedQuestionsDto> {
+    const {
+      page,
+      pageSize,
+      categorySlug,
+      isoCode,
+      questionType,
+      search,
+      sortBy,
+      sortOrder,
+    } = paginationDto;
 
-    const { page, pageSize } = paginationDto;
+    const where: Prisma.QuestionWhereInput = {
+      deletedAt: null,
+    };
+
+    if (categorySlug) {
+      where.category = {
+        categorySlug,
+      };
+    }
+
+    if (isoCode) {
+      where.country = {
+        isoCode,
+      };
+    }
+
+    if (questionType) {
+      where.questionType = questionType;
+    }
+
+    if (search) {
+      where.question = {
+        contains: search,
+        mode: 'insensitive',
+      };
+    }
+
     const skip = (page - 1) * pageSize;
-const take = pageSize;
+    const take = pageSize;
 
-    const questions = await db.question.findMany({
-      where: {
-        deletedAt: null,
-      },
-      skip,
-      take,
-      include: this.questionsInclude,
-      omit: this.questionsOmit,
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+    const [questions, totalItems] = await Promise.all([
+      db.question.findMany({
+        where,
+        skip,
+        take,
+        include: this.questionsInclude,
+        omit: this.questionsOmit,
+        orderBy: {
+          [sortBy]: sortOrder,
+        },
+      }),
 
-    const totalItems = await db.question.count({
-      where: {
-        deletedAt: null,
-      },
-    });
+      db.question.count({
+        where,
+      }),
+    ]);
+
     const totalPages = Math.ceil(totalItems / pageSize);
 
     return {
