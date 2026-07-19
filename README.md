@@ -2,7 +2,7 @@
 
 > A real-time multiplayer geography board game powered by AI.
 
-## Visions
+## Vision
 
 GeoQuest AI combines the excitement of a multiplayer board game with modern AI to create a fun, replayable geography experience.
 
